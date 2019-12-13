@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ['DEBUG'] == 'True')
 
 ALLOWED_HOSTS = ['puls-preprod.herokuapp.com']
 
@@ -102,7 +102,8 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080"
+    "localhost:8080",
+    "https://puls-front-preprod.herokuapp.com"
 ]
 
 AUTH_USER_MODEL = 'fleet.User'
