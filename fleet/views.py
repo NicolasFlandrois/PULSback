@@ -44,6 +44,34 @@ class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
 
+class ActivateCustomer(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk, format=None):
+        try:
+            customer = Customer.objects.get(pk=pk)
+            customer.is_active = True
+            customer.save()
+            serializer = CustomerSerializer(customer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class DeactivateCustomer(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk, format=None):
+        try:
+            customer = Customer.objects.get(pk=pk)
+            customer.is_active = False
+            customer.save()
+            serializer = CustomerSerializer(customer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 # Campaign Model
 class CampaignViewSet(viewsets.ModelViewSet):
     serializer_class = CampaignSerializer

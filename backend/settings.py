@@ -102,7 +102,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = [
-    "localhost:8080",
+    "http://localhost:8080",
     "https://puls-front-preprod.herokuapp.com"
 ]
 

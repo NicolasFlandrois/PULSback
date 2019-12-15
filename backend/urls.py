@@ -33,6 +33,8 @@ urlpatterns = [
     path('user/', UserList.as_view()),
     path('user/<int:pk>/', UserDetail.as_view()),
     path('donator/email/<str:email>/', DonatorByEmail.as_view()),
+    path('customer/<int:pk>/activate/', ActivateCustomer.as_view()),
+    path('customer/<int:pk>/deactivate/', DeactivateCustomer.as_view()),
     path('terminal/<int:pk>/activate/', ActivateTerminal.as_view()),
     path('terminal/<int:pk>/deactivate/', DeactivateTerminal.as_view()),
     path('terminal/mine/', TerminalByOwner.as_view()),
