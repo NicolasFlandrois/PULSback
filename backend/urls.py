@@ -17,11 +17,13 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from fleet.views import *
 from terminal.views import *
-from rest_framework.authtoken import views
+from django.conf.urls.static import static
+
 
 router = DefaultRouter()
 router.register(r'customer', CustomerViewSet)
 router.register(r'campaign', CampaignViewSet)
+router.register(r'game', GameViewSet)
 router.register(r'terminal', TerminalViewSet)
 router.register(r'donator', DonatorViewSet)
 router.register(r'session', SessionViewSet)
@@ -37,6 +39,8 @@ urlpatterns = [
     path('customer/<int:pk>/deactivate/', DeactivateCustomer.as_view()),
     path('terminal/<int:pk>/activate/', ActivateTerminal.as_view()),
     path('terminal/<int:pk>/deactivate/', DeactivateTerminal.as_view()),
+    path('terminal/<int:pk>/campaigns/', CampaignsByTerminal.as_view()),
+    path('terminal/<int:pk>/games/', GamesByTerminal.as_view()),
     path('terminal/mine/', TerminalByOwner.as_view()),
     path('terminal/mine/on/', TurnOnTerminal.as_view()),
     path('terminal/mine/off/', TurnOffTerminal.as_view()),
@@ -48,3 +52,4 @@ urlpatterns = [
 ]
 
 urlpatterns += router.urls
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

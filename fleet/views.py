@@ -78,6 +78,12 @@ class CampaignViewSet(viewsets.ModelViewSet):
     queryset = Campaign.objects.all()
     permission_classes = [IsAuthenticated, NormalUserListRetrieveOnly]
 
+    def get(self, request, *args, **kwargs):
+        queryset = Campaign.objects.all()
+        serializer = CampaignSerializer(queryset, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class StatsByCampaign(APIView):
     permission_classes = [IsAuthenticated]

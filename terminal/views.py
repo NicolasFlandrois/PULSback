@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from .models import Terminal, Donator, Session, Payment
-from .serializers import TerminalSerializer, DonatorSerializer, SessionSerializer, PaymentSerializer, PaymentFullSerializer
+from .models import Terminal, Donator, Session, Payment, Game
+from .serializers import *
 from fleet.serializers import CampaignSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
@@ -12,10 +12,41 @@ import json
 
 
 # Terminal Model
+class GameViewSet(viewsets.ModelViewSet):
+    serializer_class = GameSerializer
+    queryset = Game.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+# Terminal Model
 class TerminalViewSet(viewsets.ModelViewSet):
     serializer_class = TerminalSerializer
     queryset = Terminal.objects.all()
     permission_classes = [IsAuthenticated]
+
+
+class CampaignsByTerminal(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk, format=None):
+        try:
+            campaigns = Terminal.objects.get(pk=pk).campaigns
+            campaigns = CampaignSerializer(campaigns, many=True, context={"request": request})
+            return Response(campaigns.data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class GamesByTerminal(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk, format=None):
+        try:
+            games = Terminal.objects.get(pk=pk).games
+            games = GameSerializer(games, many=True, context={"request": request})
+            return Response(games.data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class TerminalByOwner(APIView):
@@ -25,8 +56,9 @@ class TerminalByOwner(APIView):
         try:
             terminal = Terminal.objects.get(owner=request.user.id)
             serializer = TerminalSerializer(terminal)
-            campaign = CampaignSerializer(terminal.campaign)
-            return Response({'terminal': serializer.data, 'campaign': campaign.data}, status=status.HTTP_200_OK)
+            campaigns = CampaignSerializer(terminal.campaigns, many=True, context={"request": request})
+            games = GameSerializer(terminal.games, many=True, context={"request": request})
+            return Response({'terminal': serializer.data, 'campaigns': campaigns.data, 'games': games.data}, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -173,17 +205,25 @@ class StatsByTerminal(APIView):
         try:
             payment = Payment.objects.filter(terminal=terminal, status="Accepted").order_by('date')[:5]
             avg = Payment.objects.filter(terminal=terminal, status="Accepted").aggregate(Avg('amount'))
-            avg_ts = Session.objects.filter(terminal=terminal).aggregate(Avg('timesession'))['timesession__avg']
+            avg_ts = Session.objects.filter(terminal=terminal).aggregate(Avg('timesession_global'))['timesession_global__avg']
+            avg_game_ts = Session.objects.filter(terminal=terminal).aggregate(Avg('timesession'))['timesession__avg']
             ts_string = ''
+            ts_game_string = ''
             if avg_ts:
                 avg_ts = avg_ts.seconds
                 hours, remainder = divmod(avg_ts, 3600)
                 minutes, seconds = divmod(remainder, 60)
                 ts_string = '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
+            if avg_game_ts:
+                avg_game_ts = avg_game_ts.seconds
+                hours, remainder = divmod(avg_game_ts, 3600)
+                minutes, seconds = divmod(remainder, 60)
+                ts_game_string = '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
             serializer = {
                 'avg_amount': avg['amount__avg'] or 0,
                 'payments': PaymentFullSerializer(payment, many=True).data,
-                'avg_ts': ts_string
+                'avg_ts': ts_string,
+                'avg_game_ts': ts_game_string
             }
             serializer = json.dumps(serializer)
             return Response(serializer, status=status.HTTP_200_OK)

@@ -4,6 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 class Customer(models.Model):
     company = models.CharField(max_length=255, null=True)
+    representative = models.CharField(max_length=255, null=True)
+    sales_type = models.CharField(max_length=1, default="A", null=True)
+    maintenance_type = models.CharField(max_length=255, null=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -20,6 +23,10 @@ class Campaign(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     html_template = models.TextField()
+    goal_amount = models.IntegerField()
+    video = models.FileField(null=True, blank=True, upload_to="campaigns/videos/")
+    link = models.CharField(max_length=255)
+    logo = models.FileField(null=True, blank=True, upload_to="campaigns/logos/")
 
     def __str__(self):
         return self.name
