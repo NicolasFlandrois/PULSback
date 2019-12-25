@@ -27,7 +27,6 @@ class CustomerSerializer(serializers.ModelSerializer):
 # Serializer pour le model Campaign
 class CampaignSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
-    video_url = serializers.SerializerMethodField()
     collected = serializers.SerializerMethodField('get_collected')
 
     class Meta:
@@ -44,17 +43,6 @@ class CampaignSerializer(serializers.ModelSerializer):
                 return campaign.logo.url
         else:
             return campaign.logo
-
-    def get_video_url(self, campaign):
-        if campaign.video:
-            if self.context.get('request'):
-                request = self.context.get('request')
-                video_url = campaign.video.url
-                return request.build_absolute_uri(video_url)
-            else:
-                return campaign.video.url
-        else:
-            return campaign.video
 
     def get_collected(self, campaign):
         return Payment.objects.filter(campaign=campaign.id, status="Accepted").aggregate(Sum('amount'))['amount__sum'] or 0

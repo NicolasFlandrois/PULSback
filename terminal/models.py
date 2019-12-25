@@ -7,7 +7,7 @@ class Game(models.Model):
     name = models.CharField(max_length=255)
     path = models.CharField(max_length=255)
     description = models.TextField()
-    logo = models.FileField(blank=True, null=True)
+    logo = models.FileField(blank=True, null=True, upload_to="games/logos/")
 
     def __str__(self):
         return self.name

@@ -24,7 +24,7 @@ class Campaign(models.Model):
     description = models.TextField()
     html_template = models.TextField()
     goal_amount = models.IntegerField()
-    video = models.FileField(null=True, blank=True, upload_to="campaigns/videos/")
+    video = models.CharField(max_length=255, null=True, blank=True)
     link = models.CharField(max_length=255)
     logo = models.FileField(null=True, blank=True, upload_to="campaigns/logos/")
 
