@@ -4,8 +4,16 @@ from terminal.models import Payment
 from django.db.models import Sum
 
 
+# Serializer pour le model Customer
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+
 # Serializer pour le model User
 class UserSerializer(serializers.ModelSerializer):
+    customer = CustomerSerializer(many=False, read_only=True)
     class Meta:
         model = User
         fields = '__all__'
@@ -15,13 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
         obj.customer = validated_data['customer']
         obj.save()
         return obj
-
-
-# Serializer pour le model Customer
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = '__all__'
 
 
 # Serializer pour le model Campaign
