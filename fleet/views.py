@@ -40,7 +40,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 # Customer Model
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
-    queryset = Customer.objects.all()
+    queryset = Customer.objects.filter(is_archived=False)
     permission_classes = [IsAdminUser]
 
 
@@ -75,14 +75,25 @@ class DeactivateCustomer(APIView):
 # Campaign Model
 class CampaignViewSet(viewsets.ModelViewSet):
     serializer_class = CampaignSerializer
-    queryset = Campaign.objects.all()
+    queryset = Campaign.objects.filter(is_archived=False)
     permission_classes = [IsAuthenticated, NormalUserListRetrieveOnly]
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = get_object_or_404(Campaign, pk=kwargs['pk'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def get(self, request, *args, **kwargs):
-        queryset = Campaign.objects.all()
+        queryset = Campaign.objects.filter(is_archived=False)
         serializer = CampaignSerializer(queryset, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        campaign = get_object_or_404(Campaign, pk=pk)
+        campaign.is_archived = True
+        campaign.save()
+        return Response(status=status.HTTP_200_OK)
 
 
 class StatsByCampaign(APIView):

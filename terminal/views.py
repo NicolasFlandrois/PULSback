@@ -8,14 +8,27 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
+from django.shortcuts import get_object_or_404
 import json
 
 
 # Terminal Model
 class GameViewSet(viewsets.ModelViewSet):
     serializer_class = GameSerializer
-    queryset = Game.objects.all()
+    queryset = Game.objects.filter(is_archived=False)
     permission_classes = [IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = get_object_or_404(Game, pk=kwargs['pk'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        print("here")
+        game = get_object_or_404(Game, pk=pk)
+        game.is_archived = True
+        game.save()
+        return Response(status=status.HTTP_200_OK)
 
 
 # Terminal Model
@@ -35,6 +48,7 @@ class CampaignsByTerminal(APIView):
             return Response(campaigns.data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 
 class GamesByTerminal(APIView):

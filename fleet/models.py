@@ -8,6 +8,7 @@ class Customer(models.Model):
     sales_type = models.CharField(max_length=1, default="A", null=True)
     maintenance_type = models.CharField(max_length=255, null=True)
     is_active = models.BooleanField(default=True)
+    is_archived = models.BooleanField(default=False)
 
     def __str__(self):
         return self.company
@@ -36,6 +37,7 @@ class Campaign(models.Model):
     video = models.CharField(max_length=255, null=True, blank=True)
     link = models.CharField(max_length=255)
     logo = models.FileField(null=True, blank=True, upload_to="campaigns/logos/")
+    is_archived = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
