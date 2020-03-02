@@ -27,7 +27,7 @@ class GameSerializer(serializers.ModelSerializer):
 class TerminalSerializer(serializers.ModelSerializer):
     campaigns = serializers.PrimaryKeyRelatedField(queryset=Campaign.objects.all(), many=True, allow_null=True)
     games = serializers.PrimaryKeyRelatedField(queryset=Game.objects.all(), many=True, allow_null=True)
-    owner = UserSerializer(many=False, read_only=True)
+    #owner = UserSerializer(many=False, read_only=True)
 
     class Meta:
         model = Terminal

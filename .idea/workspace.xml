@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6c30fbe4-dfb1-4dd8-a8d4-b78446642be3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleet/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/fleet/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fleet/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/fleet/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/terminal/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/terminal/serializers.py" afterDir="false" />
     </list>
@@ -44,7 +43,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -72,13 +71,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="Adding support for Amazon S3 buckets as media serving service" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="277" y="56" key="SettingsEditor" timestamp="1581501227681">
+    <state x="419" y="110" key="SettingsEditor" timestamp="1583181742456">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1581501227681" />
-    <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1583147361451">
+    <state x="419" y="110" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1583181742456" />
+    <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1583180898804">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1583147361451" />
+    <state x="465" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1583180898804" />
   </component>
 </project>

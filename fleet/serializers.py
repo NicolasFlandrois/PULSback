@@ -13,7 +13,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 # Serializer pour le model User
 class UserSerializer(serializers.ModelSerializer):
-    customer = CustomerSerializer(many=False, read_only=True)
+    #customer = CustomerSerializer(many=False, read_only=True)
     class Meta:
         model = User
         fields = '__all__'
