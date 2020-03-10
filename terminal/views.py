@@ -44,7 +44,7 @@ class TerminalViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Terminal.objects.all()
-        serializer = TerminalFullSerializer(queryset, many=True)
+        serializer = TerminalFullSerializer(queryset, many=True, read_only=True)
         return Response(serializer.data)
 
 
