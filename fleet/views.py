@@ -2,7 +2,7 @@ from .models import Customer, Campaign, User
 from django.conf import settings
 from terminal.views import Terminal, Payment
 from terminal.serializers import PaymentFullSerializer
-from .serializers import CustomerSerializer, CampaignSerializer, UserSerializer
+from .serializers import CustomerSerializer, CampaignSerializer, UserSerializer, CampaignFullSerializer
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -74,7 +74,7 @@ class DeactivateCustomer(APIView):
 
 # Campaign Model
 class CampaignViewSet(viewsets.ModelViewSet):
-    serializer_class = CampaignSerializer
+    serializer_class = CampaignFullSerializer
     queryset = Campaign.objects.filter(is_archived=False)
     permission_classes = [IsAuthenticated, NormalUserListRetrieveOnly]
 
