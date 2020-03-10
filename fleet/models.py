@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Avg, Sum
+import datetime
 
 
 class Customer(models.Model):
@@ -38,6 +40,26 @@ class Campaign(models.Model):
     link = models.CharField(max_length=255)
     logo = models.FileField(null=True, blank=True, upload_to="campaigns/logos/")
     is_archived = models.BooleanField(default=False)
+
+    @property
+    def nb_terminals(self):
+        return self.terminals.count()
+
+    @property
+    def avg_donation(self):
+        return self.payments.filter(campaign=self.pk, status="Accepted").aggregate(Avg('amount'))['amount__avg']
+
+    @property
+    def total_today(self):
+        return self.payments.filter(campaign=self.pk, status="Accepted", date=datetime.datetime.today()).aggregate(Sum('amount'))['amount__sum']
+
+    @property
+    def total_ever(self):
+        return self.payments.filter(campaign=self.pk, status="Accepted").aggregate(Sum('amount'))['amount__sum']
+
+    @property
+    def last_donations(self):
+        return self.payments.filter(campaign=self.pk, status="Accepted").order_by('date')
 
     def __str__(self):
         return self.name

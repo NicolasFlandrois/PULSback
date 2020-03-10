@@ -24,18 +24,28 @@ class GameViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
-        print("here")
         game = get_object_or_404(Game, pk=pk)
         game.is_archived = True
+        game.terminals.clear()
         game.save()
         return Response(status=status.HTTP_200_OK)
 
 
 # Terminal Model
 class TerminalViewSet(viewsets.ModelViewSet):
-    serializer_class = TerminalSerializer
     queryset = Terminal.objects.all()
     permission_classes = [IsAuthenticated]
+    serializer_class = TerminalSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = get_object_or_404(Terminal, pk=kwargs["pk"])
+        serializer = TerminalFullSerializer(queryset, many=False)
+        return Response(serializer.data)
+
+    def list(self, request, *args, **kwargs):
+        queryset = Terminal.objects.all()
+        serializer = TerminalFullSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class CampaignsByTerminal(APIView):

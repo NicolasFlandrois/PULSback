@@ -49,6 +49,8 @@ urlpatterns = [
     path('terminal/<int:terminal>/stats/', StatsByTerminal.as_view()),
     path('session/terminal/<int:terminal>/avg/', AvgSessionByTerminal.as_view()),
     path('campaign/<int:id>/stats/', StatsByCampaign.as_view()),
+    path('campaign/<int:id>/full/', StatsByCampaign.as_view()),
+    path('campaigns/full/', StatsByCampaign.as_view()),
 ]
 
 urlpatterns += router.urls

@@ -2,11 +2,14 @@ import datetime
 from rest_framework import serializers
 from .models import Terminal, Donator, Session, Payment, Game
 from fleet.models import Campaign
-from fleet.serializers import CampaignSerializer, UserSerializer
+from fleet.serializers import CampaignSerializer, UserFullSerializer
 
 
 # Serializer pour le model Terminal
 class GameSerializer(serializers.ModelSerializer):
+    nb_terminals = serializers.ReadOnlyField()
+    total_donations = serializers.ReadOnlyField()
+
     class Meta:
         model = Game
         fields = '__all__'
@@ -23,6 +26,28 @@ class GameSerializer(serializers.ModelSerializer):
             return game.logo
 
 
+# Serializer pour le model Donator
+class DonatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Donator
+        fields = '__all__'
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+
+
+class PaymentForTerminalSerializer(serializers.ModelSerializer):
+    donator = DonatorSerializer(many=False, read_only=True)
+    campaign = CampaignSerializer(many=False, read_only=True)
+    game = GameSerializer(many=False, read_only=True)
+    class Meta:
+        model = Payment
+        fields = '__all__'
+
+
 # Serializer pour le model Terminal
 class TerminalSerializer(serializers.ModelSerializer):
     campaigns = serializers.PrimaryKeyRelatedField(queryset=Campaign.objects.all(), many=True, allow_null=True)
@@ -34,20 +59,23 @@ class TerminalSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Serializer pour le model Donator
-class DonatorSerializer(serializers.ModelSerializer):
+# Serializer pour le model Terminal
+class TerminalFullSerializer(serializers.ModelSerializer):
+    campaigns = CampaignSerializer(many=True, allow_null=True)
+    games = GameSerializer(many=True, allow_null=True)
+    owner = UserFullSerializer(many=False, read_only=True)
+    total_donations = serializers.ReadOnlyField()
+    payments = PaymentForTerminalSerializer(many=True, read_only=True)
+    avg_donation = serializers.ReadOnlyField()
+    avg_timesession = serializers.ReadOnlyField()
+    avg_gametimesession = serializers.ReadOnlyField()
+
     class Meta:
-        model = Donator
+        model = Terminal
         fields = '__all__'
 
 
 # Serializer pour le model Payment
-class PaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payment
-        fields = '__all__'
-
-
 class PaymentFullSerializer(serializers.ModelSerializer):
     donator = DonatorSerializer(many=False, read_only=True)
     campaign = CampaignSerializer(many=False, read_only=True)

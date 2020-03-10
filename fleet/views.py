@@ -92,6 +92,7 @@ class CampaignViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         campaign = get_object_or_404(Campaign, pk=pk)
         campaign.is_archived = True
+        campaign.terminals.clear()
         campaign.save()
         return Response(status=status.HTTP_200_OK)
 
