@@ -61,6 +61,7 @@ class TerminalSerializer(serializers.ModelSerializer):
 
 # Serializer pour le model Terminal
 class TerminalFullSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField()
     location = serializers.CharField()
     is_active = serializers.BooleanField()
