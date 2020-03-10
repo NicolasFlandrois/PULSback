@@ -4,11 +4,6 @@
     <list default="true" id="6c30fbe4-dfb1-4dd8-a8d4-b78446642be3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleet/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/fleet/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleet/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/fleet/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fleet/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/fleet/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/terminal/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/terminal/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/terminal/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/terminal/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/terminal/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/terminal/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

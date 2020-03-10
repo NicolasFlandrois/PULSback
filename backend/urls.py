@@ -51,6 +51,7 @@ urlpatterns = [
     path('campaign/<int:id>/stats/', StatsByCampaign.as_view()),
     path('campaign/<int:id>/full/', StatsByCampaign.as_view()),
     path('campaigns/full/', StatsByCampaign.as_view()),
+    path('dashboard/', DashboardStats.as_view())
 ]
 
 urlpatterns += router.urls

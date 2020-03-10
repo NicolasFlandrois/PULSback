@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Avg
+from django.db.models import Avg, Sum
 from django.shortcuts import get_object_or_404
 import json
 
@@ -58,6 +58,21 @@ class CampaignsByTerminal(APIView):
             return Response(campaigns.data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class DashboardStats(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        terminals = Terminal.objects.filter(is_on=True)
+        terminals = TerminalFullSerializer(terminals, many=True, context={"request": request})
+        collected = Payment.objects.filter(date__month=datetime.datetime.now().month, date__year=datetime.datetime.now().year).aggregate(Sum('amount'))['amount__sum']
+        collected_last = Payment.objects.filter(date__month=datetime.datetime.now().month - 1, date__year=datetime.datetime.now().year).aggregate(Sum('amount'))['amount__sum']
+        nb_donators = Session.objects.filter(start_time__month=datetime.datetime.now().month, start_time__year=datetime.datetime.now().year).count()
+        nb_donators_last = Session.objects.filter(start_time__month=datetime.datetime.now().month - 1, start_time__year=datetime.datetime.now().year).count()
+        nb_terminals = Terminal.objects.all().count()
+        total_gamesession = Session.objects.all().aggregate(Sum('timesession'))['timesession__sum']
+        return Response({'terminals': terminals.data, 'collected': collected, 'nb_donators': nb_donators, 'nb_terminals': nb_terminals, 'total_gamesession': total_gamesession, 'collected_last': collected_last, 'nb_donators_last': nb_donators_last}, status=status.HTTP_200_OK)
 
 
 
