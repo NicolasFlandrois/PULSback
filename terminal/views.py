@@ -65,7 +65,7 @@ class DashboardStats(APIView):
 
     def get(self, request, format=None):
         terminals = Terminal.objects.filter(is_on=True)
-        terminals = TerminalFullSerializer(terminals, many=True, context={"request": request})
+        terminals = TerminalSerializer(terminals, many=True, context={"request": request})
         collected = Payment.objects.filter(date__month=datetime.datetime.now().month, date__year=datetime.datetime.now().year).aggregate(Sum('amount'))['amount__sum']
         collected_last = Payment.objects.filter(date__month=datetime.datetime.now().month - 1, date__year=datetime.datetime.now().year).aggregate(Sum('amount'))['amount__sum']
         nb_donators = Session.objects.filter(start_time__month=datetime.datetime.now().month, start_time__year=datetime.datetime.now().year).count()
