@@ -60,6 +60,23 @@ class TerminalSerializer(serializers.ModelSerializer):
 
 
 # Serializer pour le model Terminal
+class TerminalSemiSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    location = serializers.CharField()
+    is_active = serializers.BooleanField()
+    is_on = serializers.BooleanField()
+    is_playing = serializers.BooleanField()
+    campaigns = CampaignSerializer(many=True, allow_null=True)
+    games = GameSerializer(many=True, allow_null=True)
+    owner = UserFullSerializer(many=False, read_only=True)
+    total_donations = serializers.ReadOnlyField()
+    avg_donation = serializers.ReadOnlyField()
+    avg_timesession = serializers.ReadOnlyField()
+    avg_gametimesession = serializers.ReadOnlyField()
+
+
+# Serializer pour le model Terminal
 class TerminalFullSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
