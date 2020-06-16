@@ -1,4 +1,10 @@
-from django.db import models
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# Author: Nicolas Flandrois
+# Date:   Tue 16 June 2020 11:16:40
+# Last Modified time: Tue 16 June 2020 12:04:53 
+
+# Description:from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Avg, Sum
 import datetime

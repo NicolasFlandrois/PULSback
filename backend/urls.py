@@ -1,4 +1,10 @@
-"""backend URL Configuration
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# Author: Nicolas Flandrois
+# Date:   Tue 16 June 2020 11:16:40
+# Last Modified time: Tue 16 June 2020 12:06:23 
+
+# Description:"""backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/

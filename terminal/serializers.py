@@ -1,4 +1,10 @@
-import datetime
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# Author: Nicolas Flandrois
+# Date:   Tue 16 June 2020 11:16:40
+# Last Modified time: Tue 16 June 2020 12:06:17 
+
+# Description:import datetime
 from rest_framework import serializers
 from .models import Terminal, Donator, Session, Payment, Game
 from fleet.models import Campaign

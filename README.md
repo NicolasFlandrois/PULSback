@@ -1,3 +1,12 @@
+<!--
+*** Markdown
+*** coding: utf-8
+*** Author: Nicolas Flandrois
+*** Date:   Tue 16 June 2020 11:16:40
+*** Last Modified time: Tue 16 June 2020 12:04:59 
+ -->
+
+<!-- Project Description: -->
 # Backend for Fleet Management
 Backend using Django REST Framework for our fleet management. You can find the frontend on https://github.com/hilaliMoncef/PULSfront
 We are using Heroku for deployment and Amazon S3 for static files serving.
